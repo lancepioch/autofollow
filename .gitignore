@@ -15,12 +15,14 @@
 *.dylib
 
 # Executables
-*.exe
 *.out
 *.app
 *.i*86
 *.x86_64
 *.hex
+*.manifest
+*.pbd
+*.application
 
 AutoFollow/obj/
 AutoFollow/bin/Debug
