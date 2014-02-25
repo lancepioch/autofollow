@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace AutoFollow
 {
-    public partial class Form1 : Form
+    public partial class BaseForm : Form
     {
-        Form2 searchwindow;
+        ResizeForm searchwindow;
 
         public int searchcolor = 0;
         public int shadevariation = 0;
@@ -25,20 +25,20 @@ namespace AutoFollow
 
         public bool pickingcolor = false;
 
-        public Form1()
+        public BaseForm()
         {
             InitializeComponent();
-            searchwindow = new Form2(this);
+            searchwindow = new ResizeForm(this);
             searchwindow.Hide();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            label8.Text = "Top: " + (searchwindow.Location.Y + 26).ToString();
-            label9.Text = "Left: " + (searchwindow.Location.X + 4).ToString();
-            label10.Text = "Right: " + (searchwindow.Location.X - 5 + this.Width).ToString();
-            label11.Text = "Bottom: " + (searchwindow.Location.Y - 5 + this.Height).ToString();
-            label12.Text = ((searchwindow.Location.X - 5 + this.Width) - (searchwindow.Location.X + 4)).ToString() + " x " + ((searchwindow.Location.Y - 5 + this.Height) - (searchwindow.Location.Y + 26)).ToString();
+            label8.Text = "Top: " + searchwindow.Location.Y.ToString();
+            label9.Text = "Left: " + searchwindow.Location.X.ToString();
+            label10.Text = "Right: " + (searchwindow.Location.X + this.Width).ToString();
+            label11.Text = "Bottom: " + (searchwindow.Location.Y + this.Height).ToString();
+            label12.Text = (searchwindow.Location.X + this.Width - searchwindow.Location.X).ToString() + " x " + (searchwindow.Location.Y + this.Height - searchwindow.Location.Y).ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -10,14 +10,14 @@ using System.Threading;
 
 namespace AutoFollow
 {
-    public partial class Form2 : Form
+    public partial class ResizeForm : Form
     {
-        Form1 root;
+        BaseForm root;
         AutoItX3Class auto;
         public bool searching;
         Thread mthread;
 
-        public Form2(Form1 rootform)
+        public ResizeForm(BaseForm rootform)
         {
             InitializeComponent();
             root = rootform;
@@ -47,10 +47,10 @@ namespace AutoFollow
             root.WindowState = FormWindowState.Minimized;
             auto.Sleep(root.delaystart * 1000);
 
-            int left = this.Location.X + 4;
-            int top = this.Location.Y + 26;
-            int bottom = this.Location.Y + this.Height - 5;
-            int right = this.Location.X - 5 + this.Width;
+            int left = this.Location.X;
+            int top = this.Location.Y;
+            int bottom = this.Location.Y + this.Height;
+            int right = this.Location.X + this.Width;
 
             searching = true;
 
@@ -59,7 +59,6 @@ namespace AutoFollow
             while (true == true)
             {
                 object locate = auto.PixelSearch(left, top, right, bottom, root.searchcolor, root.shadevariation, root.nstep);
-                // object loc = auto.PixelSearch(left, top, right, bottom, color, colrdif, skip);
 
                 if (locate is object[])
                 {
@@ -103,20 +102,20 @@ namespace AutoFollow
         {
             if (root != null)
             {
-                root.label8.Text = "Top: " + (this.Location.Y + 26).ToString();
-                root.label9.Text = "Left: " + (this.Location.X + 4).ToString();
-                root.label10.Text = "Right: " + (this.Location.X - 5 + this.Width).ToString();
-                root.label11.Text = "Bottom: " + (this.Location.Y - 5 + this.Height).ToString();
-                root.label12.Text = ((this.Location.X - 5 + this.Width) - (this.Location.X + 4)).ToString() + " x " + ((this.Location.Y - 5 + this.Height) - (this.Location.Y + 26)).ToString();
+                root.label8.Text = "Top: " + this.Location.Y.ToString();
+                root.label9.Text = "Left: " + this.Location.X.ToString();
+                root.label10.Text = "Right: " + (this.Location.X + this.Width).ToString();
+                root.label11.Text = "Bottom: " + (this.Location.Y + this.Height).ToString();
+                root.label12.Text = (this.Location.X + this.Width - this.Location.X).ToString() + " x " + (this.Location.Y + this.Height - this.Location.Y).ToString();
             }
         }
 
         private void Form2_LocationChanged(object sender, EventArgs e)
         {
-            root.label8.Text = "Top: " + (this.Location.Y + 26).ToString();
-            root.label9.Text = "Left: " + (this.Location.X + 4).ToString();
-            root.label10.Text = "Right: " + (this.Location.X - 5 + this.Width).ToString();
-            root.label11.Text = "Bottom: " + (this.Location.Y - 5 + this.Height).ToString();
+            root.label8.Text = "Top: " + this.Location.Y.ToString();
+            root.label9.Text = "Left: " + this.Location.X.ToString();
+            root.label10.Text = "Right: " + (this.Location.X + this.Width).ToString();
+            root.label11.Text = "Bottom: " + (this.Location.Y + this.Height).ToString();
         }
 
         private void timer1_Tick(object sender, EventArgs e)

@@ -2,7 +2,7 @@
 
 namespace AutoFollow
 {
-    partial class Form2
+    partial class ResizeForm
     {
         /// <summary>
         /// Required designer variable.
@@ -63,7 +63,7 @@ namespace AutoFollow
             this.systemHotkey2.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
             this.systemHotkey2.Pressed += new System.EventHandler(this.systemHotkey2_Pressed);
             // 
-            // Form2
+            // ResizeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -72,14 +72,14 @@ namespace AutoFollow
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "Form2";
+            this.Name = "ResizeForm";
             this.Text = "Resize Me!";
             this.TopMost = true;
             this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.Load += new System.EventHandler(this.Form2_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
-            this.Resize += new System.EventHandler(this.Form2_Resize);
+            this.Load += new System.EventHandler(this.Form2_Load);
             this.LocationChanged += new System.EventHandler(this.Form2_LocationChanged);
+            this.Resize += new System.EventHandler(this.Form2_Resize);
             this.ResumeLayout(false);
 
         }
