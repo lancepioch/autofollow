@@ -7,65 +7,71 @@ namespace AutoFollow
 {
     public partial class ResizeForm : Form
     {
-        BaseForm root;
-        AutoItX3Class auto;
-        public bool searching;
-        Thread mthread;
+        private readonly BaseForm _root;
+        private readonly AutoItX3Class _auto;
+        public bool Searching;
+        private Thread _mthread;
+        private const string Toptext = "Top: ", Righttext = "Right: ", Bottomtext = "Bottom: ", Lefttext = "Left: ";
+        private const string Dimensionseparator = " x ";
 
         public ResizeForm(BaseForm rootform)
         {
             InitializeComponent();
-            root = rootform;
-            auto = new AutoItX3Class();
-            searching = false;
-            Control.CheckForIllegalCrossThreadCalls = false;
+            _root = rootform;
+            _auto = new AutoItX3Class();
+            Searching = false;
+            CheckForIllegalCrossThreadCalls = false;
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            mthread = new Thread(startmacro);
+            _mthread = new Thread(Startmacro);
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            this.Hide();
+            Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            mthread.Start();
+            _mthread.Start();
         }
 
-        public void startmacro()
+        public void Startmacro()
         {
-            root.WindowState = FormWindowState.Minimized;
-            auto.Sleep(root.delaystart * 1000);
+            _root.WindowState = FormWindowState.Minimized;
+            _auto.Sleep(_root.Delaystart*1000);
 
-            int left = this.Location.X;
-            int top = this.Location.Y;
-            int bottom = this.Location.Y + this.Height;
-            int right = this.Location.X + this.Width;
+            int left = Location.X;
+            int top = Location.Y;
+            int bottom = Location.Y + Height;
+            int right = Location.X + Width;
 
-            searching = true;
+            Searching = true;
 
-            this.Hide();
+            Hide();
 
-            while (true == true)
+            while (Searching)
             {
-                object locate = auto.PixelSearch(left, top, right, bottom, root.searchcolor, root.shadevariation, root.nstep);
+                object locate = _auto.PixelSearch(left, top, right, bottom, _root.Searchcolor, _root.Shadevariation,
+                    _root.Nstep);
 
                 if (locate is object[])
                 {
-                    Random newrandom = new Random();
-                    Object[] coord = (object[])locate;
-                    if (root.mouseclick == true)
+                    var newrandom = new Random();
+                    var coord = (object[]) locate;
+                    if (_root.Mouseclick)
                     {
-                        auto.MouseClick(root.clicktype, (int)coord[0] + newrandom.Next((-1 * root.randomx), root.randomx), (int)coord[1] + newrandom.Next((-1 * root.randomy), root.randomy), root.nclicks, 0);
+                        _auto.MouseClick(_root.Clicktype,
+                            (int) coord[0] + newrandom.Next((-1*_root.Randomx), _root.Randomx),
+                            (int) coord[1] + newrandom.Next((-1*_root.Randomy), _root.Randomy), _root.Nclicks, 0);
                     }
                     else
                     {
-                        auto.MouseMove((int)coord[0] + newrandom.Next((-1 * root.randomx), root.randomx), (int)coord[1] + newrandom.Next((-1 * root.randomy), root.randomy), 0);
+                        _auto.MouseMove((int) coord[0] + newrandom.Next((-1*_root.Randomx), _root.Randomx),
+                            (int) coord[1] + newrandom.Next((-1*_root.Randomy), _root.Randomy), 0);
                     }
                 }
             }
@@ -73,49 +79,49 @@ namespace AutoFollow
 
         private void systemHotkey1_Pressed(object sender, EventArgs e)
         {
-            mthread.Abort();
-            mthread = new Thread(startmacro);
+            _mthread.Abort();
+            _mthread = new Thread(Startmacro);
         }
 
         private void systemHotkey2_Pressed(object sender, EventArgs e)
         {
-            if (root.pickingcolor == true)
+            if (_root.Pickingcolor)
             {
                 timer1.Stop();
-                root.pickingcolor = false;
-                root.setcolor(auto.PixelGetColor(auto.MouseGetPosX(), auto.MouseGetPosY()));
-                root.Enabled = true;
+                _root.Pickingcolor = false;
+                _root.Setcolor(_auto.PixelGetColor(_auto.MouseGetPosX(), _auto.MouseGetPosY()));
+                _root.Enabled = true;
             }
         }
 
-        public void startTimer1()
+        public void StartTimer1()
         {
             timer1.Start();
         }
 
         private void Form2_Resize(object sender, EventArgs e)
         {
-            if (root != null)
+            if (_root != null)
             {
-                root.label8.Text = "Top: " + this.Location.Y.ToString();
-                root.label9.Text = "Left: " + this.Location.X.ToString();
-                root.label10.Text = "Right: " + (this.Location.X + this.Width).ToString();
-                root.label11.Text = "Bottom: " + (this.Location.Y + this.Height).ToString();
-                root.label12.Text = (this.Location.X + this.Width - this.Location.X).ToString() + " x " + (this.Location.Y + this.Height - this.Location.Y).ToString();
+                _root.label8.Text = Toptext + Location.Y;
+                _root.label9.Text = Lefttext + Location.X;
+                _root.label10.Text = Righttext + (Location.X + Width);
+                _root.label11.Text = Bottomtext + (Location.Y + Height);
+                _root.label12.Text = (Location.X + Width - Location.X) + Dimensionseparator + (Location.Y + Height - Location.Y);
             }
         }
 
         private void Form2_LocationChanged(object sender, EventArgs e)
         {
-            root.label8.Text = "Top: " + this.Location.Y.ToString();
-            root.label9.Text = "Left: " + this.Location.X.ToString();
-            root.label10.Text = "Right: " + (this.Location.X + this.Width).ToString();
-            root.label11.Text = "Bottom: " + (this.Location.Y + this.Height).ToString();
+            _root.label8.Text = Toptext + Location.Y;
+            _root.label9.Text = Lefttext + Location.X;
+            _root.label10.Text = Righttext + (Location.X + Width);
+            _root.label11.Text = Bottomtext + (Location.Y + Height);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            root.setcolor(auto.PixelGetColor(auto.MouseGetPosX(), auto.MouseGetPosY()));
+            _root.Setcolor(_auto.PixelGetColor(_auto.MouseGetPosX(), _auto.MouseGetPosY()));
         }
     }
 }
