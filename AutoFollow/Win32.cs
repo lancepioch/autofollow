@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace CodeProject.Win32
+namespace AutoFollow
 {
 	/// <summary>
 	/// Summary description for Win32.
@@ -18,7 +18,7 @@ namespace CodeProject.Win32
 	public class Kernel32
 	{
 		[DllImport("kernel32.dll")]
-		public static extern int GlobalAddAtom(string Name);
+		public static extern int GlobalAddAtom(string name);
 		[DllImport("kernel32.dll")]
 		public static extern int GlobalDeleteAtom(int atom);
 		[DllImport("kernel32.dll")]
@@ -243,21 +243,21 @@ namespace CodeProject.Win32
 	/// <summary>
 	/// Defines a delegate for Message handling
 	/// </summary>
-	public delegate void MessageEventHandler(object Sender, ref Message msg, ref bool Handled);
+	public delegate void MessageEventHandler(object sender, ref Message msg, ref bool handled);
 
 	/// <summary>
 	/// Inherits from System.Windows.Form.NativeWindow. Provides an Event for Message handling
 	/// </summary>
-	public class NativeWindowWithEvent: System.Windows.Forms.NativeWindow
+	public class NativeWindowWithEvent: NativeWindow
 	{
 		public event MessageEventHandler ProcessMessage;
 		protected override void WndProc(ref Message m)
 		{
 			if (ProcessMessage!=null)
 			{
-				bool Handled=false;
-                ProcessMessage(this,ref m,ref Handled);
-                if (!Handled) base.WndProc(ref m);
+				bool handled=false;
+                ProcessMessage(this,ref m,ref handled);
+                if (!handled) base.WndProc(ref m);
 			}else base.WndProc(ref m);
 		}
 	}
@@ -265,18 +265,18 @@ namespace CodeProject.Win32
 	/// <summary>
 	/// Inherits from NativeWindowWithEvent and automatic creates/destroys of a dummy window
 	/// </summary>
-	public class DummyWindowWithEvent: NativeWindowWithEvent, IDisposable
+	public sealed class DummyWindowWithEvent: NativeWindowWithEvent, IDisposable
 	{
 		public DummyWindowWithEvent()
 		{
 			CreateParams parms=new CreateParams();
-			this.CreateHandle(parms);
+			CreateHandle(parms);
 		}
 		public void Dispose()
 		{
-			if (this.Handle!=(IntPtr)0)
+			if (Handle!=(IntPtr)0)
 			{
-				this.DestroyHandle();
+				DestroyHandle();
 			}
 		}
 	}

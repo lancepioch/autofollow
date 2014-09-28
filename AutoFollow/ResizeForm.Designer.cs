@@ -1,6 +1,4 @@
-﻿using CodeProject.SystemHotkey;
-
-namespace AutoFollow
+﻿namespace AutoFollow
 {
     partial class ResizeForm
     {
@@ -33,8 +31,8 @@ namespace AutoFollow
             this.components = new System.ComponentModel.Container();
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.systemHotkey1 = new CodeProject.SystemHotkey.SystemHotkey(this.components);
-            this.systemHotkey2 = new CodeProject.SystemHotkey.SystemHotkey(this.components);
+            this.systemHotkey1 = new SystemHotkey(this.components);
+            this.systemHotkey2 = new SystemHotkey(this.components);
             this.SuspendLayout();
             // 
             // button1
