@@ -1,3 +1,3 @@
-#AutoFollow
+# AutoFollow
 
-*Released under the MIT License*
+*MIT License*
